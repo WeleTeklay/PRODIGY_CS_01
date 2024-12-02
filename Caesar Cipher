@@ -1,0 +1,40 @@
+import string
+
+# Create strings for lowercase and uppercase alphabets
+lower_alph = string.ascii_lowercase
+upper_alph = string.ascii_uppercase
+
+
+def shift_character(char, shift, is_encrypt):
+    if char in lower_alph:
+        index = (lower_alph.index(char) + (shift if is_encrypt else -shift)) % 26
+        return lower_alph[index]
+    elif char in upper_alph:
+        index = (upper_alph.index(char) + (shift if is_encrypt else -shift)) % 26
+        return upper_alph[index]
+    return char  # Return non-alphabet characters unchanged
+
+
+while True:
+    sentence = input('Enter your text: \n')
+    action = input('Enter "1" to ENCRYPT, "2" to DECRYPT, "3" to EXIT: \n').lower()
+
+    if action == '3':
+        break
+
+    if action in ['1', '2']:
+        shift_number = int(input('Enter your shift number from 1 to 25: \n'))
+        is_encrypt = action == '1'
+
+        result = ''.join(shift_character(char, shift_number, is_encrypt) for char in sentence)
+        print(f'{"Encrypted" if is_encrypt else "Decrypted"} text: {result}')
+        break  # Terminate after encryption or decryption
+    else:
+        print('Invalid entry. Please choose from the options provided.')
+        while True:
+            decide = input('Try again? Y for YES, N for NO: \n').lower()
+            if decide in ['y', 'n']:
+                break
+            print('Invalid input. Please enter Y or N.')
+        if decide == 'n':
+            break
